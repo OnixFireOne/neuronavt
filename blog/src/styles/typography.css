@@ -64,6 +64,7 @@
 
     code {
       @apply bg-muted/75 text-foreground rounded p-1 wrap-break-word before:content-none after:content-none;
+      font-family: var(--font-code);
     }
 
     .astro-code code {
@@ -72,6 +73,10 @@
 
     blockquote {
       @apply border-s-accent/80 wrap-break-word opacity-80;
+    }
+
+    blockquote.markdown-alert {
+      @apply opacity-100 border-s-0;
     }
 
     details {
@@ -90,6 +95,7 @@
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
     @apply outline-border flex border bg-(--shiki-light-bg) text-(--shiki-light) [&_span]:text-(--shiki-light);
+    font-family: var(--font-code);
   }
 
   html[data-theme="dark"] .astro-code {
@@ -111,5 +117,82 @@
     .highlighted-word {
       @apply border-border rounded-sm border px-0.5 py-px;
     }
+  }
+
+  /* ===== GitHub-style Blockquote Alerts ===== */
+  .markdown-alert {
+    @apply border-s-4 rounded-sm px-4 py-3 my-4;
+  }
+
+  .markdown-alert-title {
+    @apply flex items-center gap-2 font-semibold mb-1;
+  }
+
+  .markdown-alert-title svg {
+    @apply hidden;
+  }
+
+  .markdown-alert > p:last-child {
+    @apply mb-0;
+  }
+
+  .markdown-alert-note {
+    @apply border-blue-500 bg-blue-500/10;
+  }
+
+  .markdown-alert-note .markdown-alert-title {
+    @apply text-blue-600;
+  }
+
+  html[data-theme="dark"] .markdown-alert-note .markdown-alert-title {
+    @apply text-blue-400;
+  }
+
+  .markdown-alert-tip {
+    @apply border-green-500 bg-green-500/10;
+  }
+
+  .markdown-alert-tip .markdown-alert-title {
+    @apply text-green-600;
+  }
+
+  html[data-theme="dark"] .markdown-alert-tip .markdown-alert-title {
+    @apply text-green-400;
+  }
+
+  .markdown-alert-important {
+    @apply border-purple-500 bg-purple-500/10;
+  }
+
+  .markdown-alert-important .markdown-alert-title {
+    @apply text-purple-600;
+  }
+
+  html[data-theme="dark"] .markdown-alert-important .markdown-alert-title {
+    @apply text-purple-400;
+  }
+
+  .markdown-alert-warning {
+    @apply border-yellow-500 bg-yellow-500/10;
+  }
+
+  .markdown-alert-warning .markdown-alert-title {
+    @apply text-yellow-600;
+  }
+
+  html[data-theme="dark"] .markdown-alert-warning .markdown-alert-title {
+    @apply text-yellow-400;
+  }
+
+  .markdown-alert-caution {
+    @apply border-red-500 bg-red-500/10;
+  }
+
+  .markdown-alert-caution .markdown-alert-title {
+    @apply text-red-600;
+  }
+
+  html[data-theme="dark"] .markdown-alert-caution .markdown-alert-title {
+    @apply text-red-400;
   }
 }
