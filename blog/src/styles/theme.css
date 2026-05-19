@@ -23,7 +23,9 @@
 }
 
 /* Dark theme values */
-[data-theme="dark"] {
+
+/* defaulte*/
+/* [data-theme="dark"] {
   --background: #212737;
   --foreground: #eaedf3;
   --accent: #ff6b01;
@@ -31,4 +33,15 @@
   --muted: #343f60;
   --muted-foreground: #afb9ca;
   --border: #ab4b08;
+} */
+
+/* cyan */
+[data-theme="dark"] {
+  --background: #1a1e27;
+  --foreground: #e6e6e6;
+  --accent: #1ad9d9;
+  --accent-foreground: #0d2b2b;
+  --muted: #596b81;
+  --muted-foreground: #8faabb;
+  --border: #3b4655;
 }
