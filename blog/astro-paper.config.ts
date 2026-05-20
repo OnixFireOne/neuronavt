@@ -4,7 +4,7 @@ export default defineAstroPaperConfig({
   site: {
     url: "https://neuronavt.blog",
     title: "Neuronavt",
-    description: "A minimal, responsive and SEO-friendly Astro blog theme.",
+    description: "A minimal, responsive and SEO-friendly Ai blog",
     author: "Ai Ozy",
     profile: "https://satna.ing",
     ogImage: "default-og.jpg",
@@ -24,15 +24,13 @@ export default defineAstroPaperConfig({
     showBackButton: true,
     editPost: {
       enabled: true,
-      url: "https://github.com/satnaing/astro-paper/edit/main/",
+      url: "https://github.com/OnixFireOne/neuronavt/edit/main/",
     },
     search: "pagefind",
   },
   socials: [
-    { name: "github",   url: "https://github.com/satnaing/astro-paper" },
-    { name: "x",        url: "https://x.com/username" },
-    { name: "linkedin", url: "https://www.linkedin.com/in/username/" },
-    { name: "mail",     url: "mailto:yourmail@gmail.com" },
+    { name: "github",   url: "https://github.com/OnixFireOne" },
+    { name: "telegram", url: "https://t.me/ai_ozy" },
   ],
   shareLinks: [
     { name: "whatsapp", url: "https://wa.me/?text=" },
