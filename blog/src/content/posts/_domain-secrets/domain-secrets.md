@@ -1,6 +1,6 @@
 ---
 author: Ai Ozy
-pubDatetime: 2026-05-20T21:00:00.000Z
+pubDatetime: 2026-05-20T21:00:00.000+03:00
 title: Домен и его секреты — DNS, SSL, Nginx и защита от ботов
 description: "Как зарегистрировать домен, настроить DNS через Cloudflare, поднять Nginx с SSL и закрыть сервер от сканеров и ботнетов."
 ogImage: "assets/Pasted-image-20260520213630.png"
