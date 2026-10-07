@@ -12,6 +12,6 @@ const { title, description, pubDatetime, content_type, value_score } = review.da
     <h2 class="radar-card-title" style={`view-transition-name: ${getReviewTransitionName(review)}`}><a href={getReviewUrl(review)}>{title}</a></h2>
     <span class="radar-score" data-high={value_score >= 8}>{value_score}/10</span>
   </div>
-  <div class="radar-review-meta"><Datetime {pubDatetime} /><span class="radar-type">{reviewTypes[content_type]}</span></div>
+  <div class="radar-review-meta"><Datetime {pubDatetime} /><span class="radar-type" data-type={content_type}>{reviewTypes[content_type]}</span></div>
   <p class="radar-summary">{description}</p>
 </li>

@@ -10,7 +10,13 @@
 .radar-card-title a { color: var(--accent); text-decoration: none; }
 .radar-card-title a:hover { text-decoration: underline; }
 .radar-score, .radar-type { display: inline-block; flex-shrink: 0; border: 1px solid var(--border); border-radius: .375rem; padding: .15rem .5rem; font-size: .75rem; line-height: 1.5; white-space: nowrap; background: color-mix(in srgb, var(--muted) 25%, var(--background)); color: var(--foreground); }
-.radar-score[data-high="true"] { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--background)); }
+/* Type badges: tools share the accent, practice is amber, research is violet; the rest stay neutral. */
+:root, [data-theme="light"] { --radar-practice-bg: #fdf3e1; --radar-practice-fg: #8a5a00; --radar-research-bg: #efeafd; --radar-research-fg: #5b3fb8; --radar-accent-bg: #e3f4f6; }
+[data-theme="dark"] { --radar-practice-bg: #3a2f1a; --radar-practice-fg: #f2c46d; --radar-research-bg: #2c2645; --radar-research-fg: #b9a8f5; --radar-accent-bg: #163a40; }
+.radar-type[data-type="tool_release"] { border-color: transparent; background: var(--radar-accent-bg); color: var(--accent); }
+.radar-type[data-type="practical_case"], .radar-type[data-type="tutorial"] { border-color: transparent; background: var(--radar-practice-bg); color: var(--radar-practice-fg); }
+.radar-type[data-type="research"] { border-color: transparent; background: var(--radar-research-bg); color: var(--radar-research-fg); }
+.radar-score[data-high="true"] { border-color: var(--accent); color: var(--accent); background: var(--radar-accent-bg); }
 .radar-card .radar-takeaway { font-weight: 600; margin-block: 1rem .5rem; }
 .radar-card .radar-summary { margin-block: .75rem; color: var(--muted-foreground); }
 .radar-links, .radar-filters, .radar-review-meta { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-block: 1rem; }
