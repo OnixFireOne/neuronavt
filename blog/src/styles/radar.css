@@ -1,0 +1,24 @@
+/* Keep radar rules scoped so existing prose keeps its typography. */
+.radar-meta { color: var(--muted-foreground); font-size: .875rem; margin-block: 1.5rem; }
+.radar-lead { border-inline-start: .25rem solid var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--background)); padding: 1rem 1.25rem; border-radius: .25rem; margin-block: 1.5rem; }
+.radar-lead p { margin-block: .5rem; }
+.radar-lead .radar-lead-title { font-weight: 700; color: var(--accent); }
+.radar-section { margin-block: 2rem 1rem; }
+.radar-card { border: 1px solid var(--border); border-radius: .75rem; padding: 1.25rem; margin-block: 1rem; background: var(--background); overflow-wrap: anywhere; }
+.radar-card-head { display: flex; align-items: flex-start; gap: 1rem; justify-content: space-between; }
+.radar-card .radar-card-title { margin: 0; font-size: 1.125rem; line-height: 1.5; font-weight: 600; min-width: 0; }
+.radar-card-title a { color: var(--accent); text-decoration: none; }
+.radar-card-title a:hover { text-decoration: underline; }
+.radar-score, .radar-type { display: inline-block; flex-shrink: 0; border: 1px solid var(--border); border-radius: .375rem; padding: .15rem .5rem; font-size: .75rem; line-height: 1.5; white-space: nowrap; background: color-mix(in srgb, var(--muted) 25%, var(--background)); color: var(--foreground); }
+.radar-score[data-high="true"] { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--background)); }
+.radar-card .radar-takeaway { font-weight: 600; margin-block: 1rem .5rem; }
+.radar-card .radar-summary { margin-block: .75rem; color: var(--muted-foreground); }
+.radar-links, .radar-filters, .radar-review-meta { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-block: 1rem; }
+.radar-links .radar-btn, .radar-btn { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: .375rem; padding: .375rem .75rem; color: var(--accent); font-size: .875rem; text-decoration: none; font-weight: 500; }
+.radar-btn:hover, .radar-btn[aria-current="page"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--background)); }
+.radar-candidates { margin-block: 2rem; border: 1px solid var(--border); border-radius: .5rem; padding: 1rem; }
+.radar-candidates summary { cursor: pointer; font-weight: 600; }
+.radar-candidates li { overflow-wrap: anywhere; margin-block: .75rem; }
+.radar-review-list { list-style: none; padding: 0; }
+.radar-pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-block: 2rem; }
+@media (max-width: 480px) { .radar-card { padding: 1rem; } .radar-card-head { gap: .5rem; } }

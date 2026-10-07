@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Datetime from "./Datetime.astro";
+import { reviewTypes } from "@/utils/reviewTypes";
+import { getReviewUrl, getReviewTransitionName } from "@/utils/getReviewPaths";
+type Props = { review: CollectionEntry<"reviews"> };
+const { review } = Astro.props;
+const { title, description, pubDatetime, content_type, value_score } = review.data;
+---
+<li class="radar-card">
+  <div class="radar-card-head">
+    <h2 class="radar-card-title" style={`view-transition-name: ${getReviewTransitionName(review)}`}><a href={getReviewUrl(review)}>{title}</a></h2>
+    <span class="radar-score" data-high={value_score >= 8}>{value_score}/10</span>
+  </div>
+  <div class="radar-review-meta"><Datetime {pubDatetime} /><span class="radar-type">{reviewTypes[content_type]}</span></div>
+  <p class="radar-summary">{description}</p>
+</li>

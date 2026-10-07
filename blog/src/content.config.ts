@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 import config from "@/config";
+import { reviewTypeKeys } from "@/utils/reviewTypes";
 
 export const BLOG_PATH = "src/content/posts";
 
@@ -34,4 +35,20 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { posts, pages };
+const reviews = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/reviews" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDatetime: z.date(),
+    tags: z.array(z.string()).default([]),
+    source_url: z.url(),
+    source_type: z.string(),
+    content_type: z.enum(reviewTypeKeys),
+    value_score: z.number().min(0).max(10),
+    digest: z.string().optional(),
+    draft: z.boolean().optional(),
+  }),
+});
+
+export const collections = { posts, pages, reviews };

@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import ReviewList from "@/components/ReviewList.astro";
+import { getSortedReviews } from "@/utils/getSortedReviews";
+import { reviewTypeKeys } from "@/utils/reviewTypes";
+import config from "@/config";
+export const getStaticPaths = (async ({ paginate }) => {
+  const reviews = getSortedReviews(await getCollection("reviews"));
+  const types = reviewTypeKeys.filter(type => reviews.some(review => review.data.content_type === type));
+  return types.flatMap(type => paginate(reviews.filter(review => review.data.content_type === type), {
+    pageSize: config.posts.perPage, params: { type }, props: { types, selected: type },
+  }));
+}) satisfies GetStaticPaths;
+---
+<ReviewList {...Astro.props} />
