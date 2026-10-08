@@ -1,0 +1,40 @@
+---
+import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
+import LinkButton from "@/components/LinkButton.astro";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+type Props = { digest?: string };
+
+const { digest } = Astro.props;
+const locale = Astro.currentLocale ?? config.site.lang;
+const t = useTranslations(locale);
+// Fallback for direct visits: the digest that links here, else the list.
+const href = digest ? `/posts/${digest}/` : "/reviews/";
+---
+
+<div class="app-layout flex items-center justify-start">
+  <LinkButton
+    id="review-back-button"
+    href={href}
+    class="focus-outline hover:text-foreground/75 -ms-2 mt-8 mb-2"
+  >
+    <IconChevronLeft class="inline-block size-6 rtl:rotate-180" />
+    <span>{t.post.goBack}</span>
+  </LinkButton>
+</div>
+
+<script>
+  // Inside a ClientRouter session go back in history, so the reader lands
+  // on the page they came from at the same scroll position.
+  document.addEventListener("click", event => {
+    const target = event.target as Element | null;
+    if (!target?.closest("#review-back-button")) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      return;
+    if ((history.state?.index ?? 0) > 0) {
+      event.preventDefault();
+      history.back();
+    }
+  });
+</script>

@@ -8,6 +8,7 @@ import { getSortedReviews } from "@/utils/getSortedReviews";
 import { getReviewSlug, getReviewTransitionName } from "@/utils/getReviewPaths";
 import { reviewTypes } from "@/utils/reviewTypes";
 import config from "@/config";
+import ReviewBackButton from "./_components/ReviewBackButton.astro";
 export async function getStaticPaths() {
   return getSortedReviews(await getCollection("reviews")).map(review => ({ params: { slug: getReviewSlug(review) }, props: { review } }));
 }
@@ -18,7 +19,8 @@ const { Content } = await render(review);
 ---
 <PostLayout title={`${title} | ${config.site.title}`} {description} {pubDatetime}>
   <Header />
-  <main id="main-content" class="app-layout mt-8" data-pagefind-body>
+  <ReviewBackButton digest={digest} />
+  <main id="main-content" class="app-layout" data-pagefind-body>
     <h1 class="text-accent text-2xl font-bold sm:text-3xl" style={`view-transition-name: ${getReviewTransitionName(review)}`}>{title}</h1>
     <div class="radar-review-meta"><Datetime {pubDatetime} /><span class="radar-type" data-type={content_type}>{reviewTypes[content_type]}</span><span class="radar-score" data-high={value_score >= 8}>{value_score}/10</span></div>
     <article class="app-prose max-w-app mt-8 prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"><Content /></article>
