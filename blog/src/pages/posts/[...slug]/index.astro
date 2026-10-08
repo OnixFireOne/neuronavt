@@ -259,7 +259,18 @@ const ogImage = ogImageUrl
   }
   attachCopyButtons();
 
-  document.addEventListener("astro:after-swap", () =>
-    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
-  );
+  // Back/forward must keep the saved position: Astro restores it before
+  // after-swap, and with scroll-smooth it would animate from the top.
+  let navigationType = "push";
+  document.addEventListener("astro:before-swap", event => {
+    navigationType = event.navigationType;
+  });
+  document.addEventListener("astro:after-swap", () => {
+    const state = navigationType === "traverse" ? history.state : null;
+    window.scrollTo({
+      left: state?.scrollX ?? 0,
+      top: state?.scrollY ?? 0,
+      behavior: "instant",
+    });
+  });
 </script>
