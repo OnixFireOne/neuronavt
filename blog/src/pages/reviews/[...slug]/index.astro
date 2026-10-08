@@ -1,0 +1,32 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import PostLayout from "@/layouts/PostLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Datetime from "@/components/Datetime.astro";
+import { getSortedReviews } from "@/utils/getSortedReviews";
+import { getReviewSlug, getReviewTransitionName } from "@/utils/getReviewPaths";
+import { reviewTypes } from "@/utils/reviewTypes";
+import config from "@/config";
+export async function getStaticPaths() {
+  return getSortedReviews(await getCollection("reviews")).map(review => ({ params: { slug: getReviewSlug(review) }, props: { review } }));
+}
+type Props = { review: CollectionEntry<"reviews"> };
+const { review } = Astro.props;
+const { title, description, pubDatetime, content_type, value_score, source_url, digest, tags } = review.data;
+const { Content } = await render(review);
+---
+<PostLayout title={`${title} | ${config.site.title}`} {description} {pubDatetime}>
+  <Header />
+  <main id="main-content" class="app-layout mt-8" data-pagefind-body>
+    <h1 class="text-accent text-2xl font-bold sm:text-3xl" style={`view-transition-name: ${getReviewTransitionName(review)}`}>{title}</h1>
+    <div class="radar-review-meta"><Datetime {pubDatetime} /><span class="radar-type" data-type={content_type}>{reviewTypes[content_type]}</span><span class="radar-score" data-high={value_score >= 8}>{value_score}/10</span></div>
+    <article class="app-prose max-w-app mt-8 prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"><Content /></article>
+    {tags.length > 0 && <ul class="my-8 flex flex-wrap gap-3" aria-label="Теги">{tags.map(tag => <li>{tag}</li>)}</ul>}
+    <div class="radar-links my-8">
+      <a class="radar-btn radar-btn-ext" href={source_url} target="_blank" rel="noopener">Читать оригинал</a>
+      {digest && <a class="radar-btn" href={`/posts/${digest}/`}>Из выпуска {digest}</a>}
+    </div>
+  </main>
+  <Footer />
+</PostLayout>

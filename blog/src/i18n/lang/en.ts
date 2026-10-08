@@ -4,6 +4,7 @@ export default {
   nav: {
     home: "Home",
     posts: "Posts",
+    reviews: "Разборы",
     tags: "Tags",
     about: "About",
     archives: "Archives",
@@ -46,6 +47,8 @@ export default {
 
     postsTitle: "Posts",
     postsDesc: "All the articles I've posted.",
+    reviewsTitle: "Разборы",
+    reviewsDesc: "Разборы статей из AI-радара.",
 
     archivesTitle: "Archives",
     archivesDesc: "All the articles I've archived.",
