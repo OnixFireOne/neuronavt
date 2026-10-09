@@ -6,7 +6,8 @@ import Header from "./Header.astro";
 import Footer from "./Footer.astro";
 import Main from "./Main.astro";
 import ReviewCard from "./ReviewCard.astro";
-import { reviewTypes, type ReviewType } from "@/utils/reviewTypes";
+import ReviewFilters from "./ReviewFilters.astro";
+import type { ReviewType } from "@/utils/reviewTypes";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
 type Props = { page: Page<CollectionEntry<"reviews">>; types: ReviewType[]; selected?: ReviewType };
@@ -15,11 +16,8 @@ const t = useTranslations(Astro.currentLocale ?? config.site.lang);
 ---
 <Layout title={`${t.pages.reviewsTitle} | ${config.site.title}`} description={t.pages.reviewsDesc}>
   <Header />
-  <Main pageTitle={t.pages.reviewsTitle} pageDesc={t.pages.reviewsDesc}>
-    <nav class="radar-filters" aria-label="Тип разбора">
-      <a class="radar-btn" href="/reviews/" aria-current={!selected ? "page" : undefined}>Все</a>
-      {types.map(type => <a class="radar-btn" href={`/reviews/type/${type}/`} aria-current={selected === type ? "page" : undefined}>{reviewTypes[type]}</a>)}
-    </nav>
+  <Main pageTitle={t.pages.reviewsTitle} pageDesc={t.pages.reviewsDesc} class="mt-8">
+    <ReviewFilters {types} {selected} />
     <ul class="radar-review-list">{page.data.map(review => <ReviewCard {review} />)}</ul>
     {page.data.length === 0 && <p>Разборов пока нет.</p>}
     {page.lastPage > 1 && <nav class="radar-pagination" aria-label="Pagination Navigation">

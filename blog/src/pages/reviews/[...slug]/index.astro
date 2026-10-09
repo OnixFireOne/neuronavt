@@ -22,7 +22,7 @@ const { Content } = await render(review);
   <ReviewBackButton digest={digest} />
   <main id="main-content" class="app-layout" data-pagefind-body>
     <h1 class="text-accent text-2xl font-bold sm:text-3xl" style={`view-transition-name: ${getReviewTransitionName(review)}`}>{title}</h1>
-    <div class="radar-review-meta"><Datetime {pubDatetime} /><span class="radar-type" data-type={content_type}>{reviewTypes[content_type]}</span><span class="radar-score" data-high={value_score >= 8}>{value_score}/10</span></div>
+    <div class="radar-review-meta" data-fav-host={getReviewSlug(review)}><Datetime {pubDatetime} /><span class="radar-type" data-type={content_type}>{reviewTypes[content_type]}</span><span class="radar-score" data-high={value_score >= 8}>{value_score}/10</span></div>
     <article class="app-prose max-w-app mt-8 prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"><Content /></article>
     {tags.length > 0 && <ul class="my-8 flex flex-wrap gap-3" aria-label="Теги">{tags.map(tag => <li>{tag}</li>)}</ul>}
     <div class="radar-links my-8">
