@@ -16,7 +16,7 @@ const t = useTranslations(Astro.currentLocale ?? config.site.lang);
 ---
 <Layout title={`${t.pages.reviewsTitle} | ${config.site.title}`} description={t.pages.reviewsDesc}>
   <Header />
-  <Main pageTitle={t.pages.reviewsTitle} pageDesc={t.pages.reviewsDesc}>
+  <Main pageTitle={t.pages.reviewsTitle} pageDesc={t.pages.reviewsDesc} class="mt-8">
     <ReviewFilters {types} {selected} />
     <ul class="radar-review-list">{page.data.map(review => <ReviewCard {review} />)}</ul>
     {page.data.length === 0 && <p>Разборов пока нет.</p>}
