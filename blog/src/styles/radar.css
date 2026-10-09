@@ -28,3 +28,12 @@
 .radar-review-list { list-style: none; padding: 0; }
 .radar-pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-block: 2rem; }
 @media (max-width: 480px) { .radar-card { padding: 1rem; } .radar-card-head { gap: .5rem; } }
+/* Favorite toggle: outlined star, filled when the review is saved in this browser. */
+.radar-fav { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: .375rem; color: var(--muted-foreground); cursor: pointer; }
+.radar-fav svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+.radar-fav:hover { color: var(--accent); }
+.radar-fav[aria-pressed="true"] { color: var(--accent); }
+.radar-fav[aria-pressed="true"] svg { fill: currentColor; }
+.radar-card-head > .radar-card-title { flex: 1; }
+.radar-card-head .radar-fav { margin-inline-start: -.5rem; }
+label.radar-btn { cursor: pointer; }

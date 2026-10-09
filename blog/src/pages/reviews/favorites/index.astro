@@ -1,0 +1,118 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Main from "@/components/Main.astro";
+import Datetime from "@/components/Datetime.astro";
+import ReviewFilters from "@/components/ReviewFilters.astro";
+import { reviewTypeKeys } from "@/utils/reviewTypes";
+import config from "@/config";
+const reviews = await getCollection("reviews");
+const types = reviewTypeKeys.filter(type => reviews.some(review => review.data.content_type === type));
+const pageDesc = "Отмеченные разборы. Список хранится только в этом браузере.";
+---
+<Layout title={`Избранное | ${config.site.title}`} description={pageDesc}>
+  <Header />
+  <Main pageTitle="Избранное" {pageDesc} class="mt-8">
+    <ReviewFilters {types} selected="favorites" />
+    <ul id="favorites-list" class="radar-review-list"></ul>
+    <p id="favorites-empty" hidden>Пока ничего нет. Отмечайте разборы звёздочкой ☆ — в списке, в выпусках или на странице разбора.</p>
+    <div class="radar-links">
+      <button type="button" class="radar-btn" id="favorites-export">Скачать список</button>
+      <label class="radar-btn" for="favorites-import">Загрузить список</label>
+      <input type="file" id="favorites-import" accept="application/json,.json" hidden />
+    </div>
+    <template id="favorite-card">
+      <li class="radar-card">
+        <div class="radar-card-head">
+          <h2 class="radar-card-title"><a></a></h2>
+          <span class="radar-score"></span>
+        </div>
+        <div class="radar-review-meta"><Datetime pubDatetime={new Date(0)} /><span class="radar-type"></span></div>
+        <p class="radar-summary"></p>
+      </li>
+    </template>
+  </Main>
+  <Footer />
+</Layout>
+
+<script>
+  import { getFavorites, setFavorites } from "@/utils/favorites";
+  import { refreshFavoriteButtons } from "@/scripts/favorites";
+
+  type ReviewItem = {
+    slug: string; title: string; description: string; datetime: string;
+    date: string; type: string; typeLabel: string; score: number;
+  };
+
+  function fillCard(template: HTMLTemplateElement, item: ReviewItem): Node {
+    const card = template.content.cloneNode(true) as DocumentFragment;
+    const link = card.querySelector("a")!;
+    link.href = `/reviews/${item.slug}/`;
+    link.textContent = item.title;
+    const score = card.querySelector<HTMLElement>(".radar-score")!;
+    score.textContent = `${item.score}/10`;
+    score.dataset.high = String(item.score >= 8);
+    const time = card.querySelector("time")!;
+    time.dateTime = item.datetime;
+    time.textContent = item.date;
+    const type = card.querySelector<HTMLElement>(".radar-type")!;
+    type.dataset.type = item.type;
+    type.textContent = item.typeLabel;
+    card.querySelector(".radar-summary")!.textContent = item.description;
+    return card;
+  }
+
+  // Unstarred cards stay until the next visit, so a misclick can be undone.
+  async function renderFavorites() {
+    const list = document.querySelector("#favorites-list");
+    const template = document.querySelector<HTMLTemplateElement>("#favorite-card");
+    const empty = document.querySelector<HTMLElement>("#favorites-empty");
+    if (!list || !template || !empty) return;
+    const slugs = getFavorites();
+    let items: ReviewItem[] = [];
+    if (slugs.length > 0) {
+      const response = await fetch("/reviews/index.json");
+      const bySlug = new Map((await response.json() as ReviewItem[]).map(item => [item.slug, item]));
+      items = slugs.flatMap(slug => bySlug.get(slug) ?? []);
+    }
+    list.replaceChildren(...items.map(item => fillCard(template, item)));
+    empty.hidden = items.length > 0;
+    refreshFavoriteButtons();
+  }
+
+  function exportFavorites() {
+    const blob = new Blob([JSON.stringify({ favorites: getFavorites() }, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "neuronavt-favorites.json";
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
+  // Imported slugs are merged after the current ones; nothing is removed.
+  async function importFavorites(input: HTMLInputElement) {
+    const file = input.files?.[0];
+    input.value = "";
+    if (!file) return;
+    try {
+      const data: unknown = JSON.parse(await file.text());
+      const imported = (data as { favorites?: unknown })?.favorites;
+      if (!Array.isArray(imported)) throw new Error("no favorites list");
+      const slugs = imported.filter((slug): slug is string => typeof slug === "string");
+      setFavorites([...getFavorites(), ...slugs]);
+      await renderFavorites();
+    } catch {
+      alert("Не удалось прочитать файл: нужен файл, скачанный кнопкой «Скачать список».");
+    }
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    if (!document.querySelector("#favorites-list")) return;
+    void renderFavorites();
+    document.querySelector("#favorites-export")?.addEventListener("click", exportFavorites);
+    const input = document.querySelector<HTMLInputElement>("#favorites-import");
+    input?.addEventListener("change", () => void importFavorites(input));
+  });
+</script>

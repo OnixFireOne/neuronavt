@@ -1,0 +1,10 @@
+---
+import { reviewTypes, type ReviewType } from "@/utils/reviewTypes";
+type Props = { types: ReviewType[]; selected?: ReviewType | "favorites" };
+const { types, selected } = Astro.props;
+---
+<nav class="radar-filters" aria-label="Тип разбора">
+  <a class="radar-btn" href="/reviews/" aria-current={!selected ? "page" : undefined}>Все</a>
+  {types.map(type => <a class="radar-btn" href={`/reviews/type/${type}/`} aria-current={selected === type ? "page" : undefined}>{reviewTypes[type]}</a>)}
+  <a class="radar-btn" href="/reviews/favorites/" aria-current={selected === "favorites" ? "page" : undefined}>★ Избранное</a>
+</nav>
